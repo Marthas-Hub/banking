@@ -41,17 +41,27 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/cache@v1
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-mavven-${{ ('*.jar') }}
-    - name: Deploy to cloudhub
-      env:
-         connectedAppClientId: ${{ secrets.MULE_CLIENT_ID }}
-         connectedAppClientSecret: ${{ secrets.MULE_CLIENT_Secret }}
-      run: mvn deploy -Dusername=abhinav_0895 -Dpassword=abhinavM@321 
-      
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: 1.8
+
+      - name: Build with Maven
+        run: |
+          mvn clean package
+
+      - name: Deploy to CloudHub
+        run: |
+        
+          export CLOUDHUB_USERNAME=abhinav_0895
+          export CLOUDHUB_PASSWORD=abhinavM@321
+          export APPLICATION_NAME=credit-bureau-testcb1
+          
+          
+ 
       
    
 
