@@ -50,7 +50,7 @@ jobs:
       env:
          connectedAppClientId: ${{ secrets.MULE_CLIENT_ID }}
          connectedAppClientSecret: ${{ secrets.MULE_CLIENT_Secret }}
-      run: mvn mule:deploy  -Dusername=abhinav_0895 -Dpassword=abhinavM@321
+      run: mvn mule:deploy -Dmule.artifact=$artifactName -Dusername=abhinav_0895 -Dpassword=abhinavM@321
       
       
    
