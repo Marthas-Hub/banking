@@ -51,3 +51,9 @@ jobs:
          connectedAppClientId: ${{ secrets.MULE_CLIENT_ID }}
          connectedAppClientSecret: ${{ secrets.MULE_CLIENT_Secret }}
       run: mvn clean package deploy -DmuleDeploy -X --file pom.xml
+           artifactName=$(ls *.jar | head -1)
+mvn mule:deploy -Dmule.artifact=$artifactName -Dusername=abhinav_0895 -Dpassword=abhinavM@321
+      
+      
+   
+
