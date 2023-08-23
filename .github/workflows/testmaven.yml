@@ -49,5 +49,5 @@ jobs:
     - name: Deploy to CloudHub
       env:
          connectedAppClientId: abhinav_0895
-         connectedAppClientSecret: secrets.abhinavM@321
+         connectedAppClientSecret: abhinavM@321
       run: mvn clean package deploy -DmuleDeploy -X --file pom.xml
