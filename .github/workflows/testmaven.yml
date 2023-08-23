@@ -41,7 +41,9 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout code
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v1
+    - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Set up Java
@@ -52,15 +54,11 @@ jobs:
       - name: Build with Maven
         run: |
           mvn clean package
-
-      - name: Deploy to CloudHub
-        run: |
-        
-          export CLOUDHUB_USERNAME=abhinav_0895
-          export CLOUDHUB_PASSWORD=abhinavM@321
-          export APPLICATION_NAME=credit-bureau-testcb1
-          anypoint runtime-mgr cloudhub-application deploy --username abhinav_0895 --password abhinavM@321 --environment "Sandbox" --workerSize "0.1" --workerCount "1" credit-bureau-testcb1 ./target/your-application-artifact.jar
- 
-      
-   
-
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-mavven-${{ ('*.jar') }}
+    - name: Deploy to cloudhub
+      env:
+         connectedAppClientId: ${{ secrets.MULE_CLIENT_ID }}
+         connectedAppClientSecret: ${{ secrets.MULE_CLIENT_ID }}
+      run: mvn clean package deploy -DmuleDeploy -X --file pom.xml
