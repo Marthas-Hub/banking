@@ -30,7 +30,9 @@
      						
 						<muleVersion>${app.runtime}</muleVersion>
 						<applicationName>cwb-devCICD-credit-bureau-testcb</applicationName>
-						<environment>Development</environment>
+						<environment>Sandbox</environment>
+						<connectedAppClientId>${MULE_CLIENT_ID}</connectedAppClientId>
+						<connectedAppClientSecret>${MULE_CLIENT_Secret}</connectedAppClientSecret>
 						<workers>2</workers>
 						<connectedAppGrantType>client_credentials</connectedAppGrantType>
 						<deploymentTimeout>1000000</deploymentTimeout>
