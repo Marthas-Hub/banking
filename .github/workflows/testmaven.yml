@@ -44,10 +44,12 @@ jobs:
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-mavven-${{ ('*.jar') }}
-– name: Deploy to Anypoint Platform
-env:
-USERNAME: ${{ secrets.USERNAME }}
-PASSWORD: ${{ secrets.PASSWORD }}
-run: |
-    artifactName=$(ls *.jar | head -1)
-    mvn mule:deploy -Dmule.artifact=$artifactName -Dusername=$USERNAME -Dpassword=$PASSWORD
+          
+      - name: Build and Deploy to CloudHub
+    env:
+      cloudhub.username: ${{ secrets.CLOUDHUB_USERNAME }}
+      cloudhub.password: ${{ secrets.CLOUDHUB_PASSWORD }}
+      cloudhub.applicationName: cwb-intellect-banking
+      cloudhub.environment: SANDBOX
+   
+      
