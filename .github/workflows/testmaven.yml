@@ -46,8 +46,13 @@ jobs:
       with:
         path: ~/.m2/repository
         key: ${{ runner.os }}-mavven-${{ ('*.jar') }}
-    - name: Deploy to cloudhub
-      env:
-         connectedAppClientId: ${{ secrets.USERNAME }}
-         connectedAppClientSecret: ${{ secrets.PASSWORD }}
-      run: mvn clean package deploy -DmuleDeploy -X --file pom.xml
+    - name: Deploy to CloudHub
+        run: |
+          mvn clean package deploy:deploy-file \
+            -DmuleDeploy \
+            -DmuleDeploy.prop.url=https://anypoint.mulesoft.com\
+            -DmuleDeploy.prop.username=abhinav_0895 \
+            -DmuleDeploy.prop.password=abhinavM@321 \
+            -DmuleDeploy.prop.applicationName=cwb-intellect-banking \
+            -DmuleDeploy.prop.environment=sandbox \
+            -DmuleDeploy.prop.businessGroup=655004bb-38b3-4fc1-a751-02cc0cdcc6d8
