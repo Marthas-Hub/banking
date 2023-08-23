@@ -30,7 +30,7 @@
      						
 						<muleVersion>${app.runtime}</muleVersion>
 						<applicationName>cwb-devCICD-credit-bureau-testcb</applicationName>
-						<environment>Sandbox</environment>
+						<environment>SANDBOX</environment>
 						<connectedAppClientId>${MULE_CLIENT_ID}</connectedAppClientId>
 						<connectedAppClientSecret>${MULE_CLIENT_Secret}</connectedAppClientSecret>
 						<workers>2</workers>
