@@ -1,4 +1,4 @@
 {
-  "secureProperties": ["anypoint.platform.client_secret", "splunk.token", "api.clientSecret"],
-  "minMuleVersion": "4.4.0"
+  "minMuleVersion": "4.3.0",
+  "secureProperties": ["anypoint.platform.client_secret","api.clientSecret","t24webservices.password"]
 }
