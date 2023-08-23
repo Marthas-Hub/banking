@@ -7,7 +7,7 @@
 	<version>1.0.6-SNAPSHOT</version>
 	<packaging>mule-application</packaging>
 
-	<name>credit-bureau-testcb</name>
+	<name>credit-bureau-testcb1</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
