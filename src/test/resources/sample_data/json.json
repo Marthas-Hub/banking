@@ -1,0 +1,35 @@
+{
+  "customerType": "RETAIL",
+   "customerEnabledForMoneyRequests": true,
+  "lastUpdateDate": "2020-12-21",
+  "language": "ENGLISH",
+  "notificationPreferences": [
+    {
+      "notificationHandleType": "EMAIL",
+      "notificationHandle": "string",
+      "active": true
+    }
+  ],
+  "dateOfBirth": "2020-12-21",
+  "customerName": {
+    "legalName": {
+      "retailName": {
+        "firstName": "string",
+        "lastName": "string",
+        "middleName": "string"
+      },
+      "businessName": {
+        "tradeName": "string",
+        "companyName": "string"
+      }
+    },
+    "registrationName": "string"
+  },
+  "productRegistrations": [
+    {
+      "productCode": "DOMESTIC",
+      "currencyCode": "CAD",
+      "customerLimitsGroupId": "string"
+    }
+  ]
+}

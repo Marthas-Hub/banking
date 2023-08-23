@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="profile-transferId-participantId-commit" doc:id="e65dccbd-1e22-401f-88a3-9a9fa5f8ee77" >
+		<logger level="INFO" doc:name="commitIncomingPayments start logger" doc:id="3f08cd56-dad1-46c6-99e2-2776ed8c637a" message="commitincomingpayments Started #[payload]"/>
+		<ee:transform doc:name="Transform Message" doc:id="f278b336-e3b8-4f74-9845-f002ccf5d941">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+
+{
+  "amount": {
+    "amount": payload.amount,
+    "currencyCode": payload.amount.currencyCode 
+     },
+  "financialSupplementaryInfo": {
+    "language": payload.financialSupplementaryInfo.language,
+    "customerIpAddress": payload.financialSupplementaryInfo.customerIpAddress
+  },
+  "customerAccount": {
+    "bankAccountIdentifier": {
+      "route": payload.customerAccount.bankAccountIdentifier.route,
+      "transit": payload.customerAccount.bankAccountIdentifier.transit,
+      "accountNumber": payload.customerAccount.bankAccountIdentifier.accountNumber
+    },
+    "accountHolderName": payload.customerAccount.accountHolderName,
+    "fiAccountId": {
+      "memberNumber": payload.customerAccount.fiAccountId.memberNumber,
+      "productNumber": payload.customerAccount.fiAccountId.productNumber,
+      "branch": payload.customerAccount.fiAccountId.branch,
+      "productType": payload.customerAccount.fiAccountId.productType,
+      "productCategory": payload.customerAccount.fiAccountId.productCategory
+
+    }
+  }
+  , "recipientMemo": payload."recipientMemo"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="before HTTP _REQUESTER -Etransfer-Papi-Commit" doc:id="589052f6-fa70-49aa-8a9e-cd453e2f6319" message='#["before HTTP _REQUESTER -Etransfer-Papi-Commit"]'/>
+		<until-successful maxRetries="5" doc:name="Until Successful" doc:id="f23015f4-e162-4014-94f5-6419bd524da2">
+			<http:request method="POST" doc:name="HTTP_REQUESTER_Etransfer-Papi-Commit" doc:id="f3b5807e-6182-4254-954b-62457ae8e395" path="/profiles/{profileId}/received/transfers/{transferId}/{participantId}/commit" config-ref="ETransfers_pAPI_HTTP_Request_configuration">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"X-Correlation-Id" : attributes.headers.X-Correlation-Id,
+	
+}]]]></http:headers>
+			<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"transferId" : attributes.uriParams.Id,
+	"participantId" : attributes.uriParams.participant_reference,
+	"profileId" : attributes.uriParams.x-et-participant-user-id
+}]]]></http:uri-params>
+		</http:request>
+		</until-successful>
+		<logger level="INFO" doc:name="After HTTP _REQUESTER -Etransfer-Papi-Commit" doc:id="8cd411a2-cb35-469d-8f0b-c9b92afd7fa1" message='#["After HTTP _REQUESTER -Etransfer-Papi-Commit"]'/>
+		<error-handler ref="intellect-banking-errorhandler" />
+	</flow>
+	<flow name="etransfer-recieved-transferId-preprocess" doc:id="d6a59cad-f664-48cd-9669-6b0b78921ccb" >
+		<logger level="INFO" doc:name=" PreprocessIncomingPayments flow Start Logger" doc:id="59e4ab6f-febb-43c5-910d-2ae94bf75130" message='PreprocessIncomingPayments flow Started#[payload]' />
+		<ee:transform doc:name="Transform Message" doc:id="db6c8a0b-e4dc-41b8-a470-f23413885e53">
+			<ee:message>
+				<ee:set-payload><![CDATA[
+%dw 2.0
+output application/json
+---
+
+{
+  "amount": {
+    "amount": payload.amount,
+    "currencyCode": payload.amount.currencyCode 
+     },
+  "financialSupplementaryInfo": {
+    "language": payload.financialSupplementaryInfo.language,
+    "customerIpAddress": payload.financialSupplementaryInfo.customerIpAddress
+  },
+  "customerAccount": {
+    "bankAccountIdentifier": {
+      "route": payload.customerAccount.bankAccountIdentifier.route,
+      "transit": payload.customerAccount.bankAccountIdentifier.transit,
+      "accountNumber": payload.customerAccount.bankAccountIdentifier.accountNumber
+    },
+    "accountHolderName": payload.customerAccount.accountHolderName,
+    "fiAccountId": {
+      "memberNumber": payload.customerAccount.fiAccountId.memberNumber,
+      "productNumber": payload.customerAccount.fiAccountId.productNumber,
+      "branch": payload.customerAccount.fiAccountId.branch,
+      "productType": payload.customerAccount.fiAccountId.productType,
+      "productCategory": payload.customerAccount.fiAccountId.productCategory
+    }
+  }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger Before HTTP REQUEST connector" doc:id="7bc13c70-6e48-4d4d-a984-81db60957e76" message='#["Before HTTP REQUEST connector"]' />
+		<http:request method="POST" doc:name="HTTP_REQUESTER_etransfer-PAPI-Preprocess" doc:id="ab2b72e4-3833-4678-8b01-8f49fb61f9af" config-ref="ETransfers_pAPI_HTTP_Request_configuration" path="/profiles/{profileId}/received/transfers/{transferId}/preprocess">
+				<http:headers><![CDATA[#[output application/json
+---
+{
+	"eTransfer Profile ID" : attributes.headers.x-et-participant-user-id,
+  	"x-et-participant-user-id": attributes.headers.x-et-participant-user-id,
+     "X-Correlation-Id": attributes.headers.X-Correlation-Id
+}]]]></http:headers>
+				<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"transferId" : atributes.uriParams.id,
+	"profileId" : attributes.headers.'x-et-participant-user-id'
+}]]]></http:uri-params>
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"profileId" : attributes.uriParams.profileId
+}]]]></http:query-params>
+			</http:request>
+		<logger level="INFO" doc:name="Logger After HTTP REQUEST connector" doc:id="b3845186-6e2d-4631-84b6-c94fa5f4ab88" message='#["After HTTP REQUEST connector"]' />
+		<error-handler ref="intellect-banking-errorhandler" />
+	</flow>
+	<flow name="commit-PreprocessFlow" doc:id="5c26ec3f-dd2e-4bf8-8ebd-8711bd6cb050" >
+		<logger level="INFO" doc:name="Commit-preprocess-Flow Start Logger" doc:id="3f08cd56-dad1-46c6-99e2-2776ed8c637a" message="Commit-preprocess-Flow started"/>
+		<flow-ref doc:name="profile-transferId-participantId-commit" doc:id="98474f01-7a16-4d97-85e6-1343b73ed376" name="profile-transferId-participantId-commit"/>
+		<set-payload value="#[204]" doc:name="204" doc:id="b2488948-eeaf-451c-aeff-32668ad39aec" />
+		<logger level="INFO" doc:name="Commit-preprocess-Flow End Logger" doc:id="beba904a-9e32-41d4-88e2-8c4b1fcf6129" message="Commit-preprocess-Flow ended"/>
+		<error-handler ref="intellect-banking-errorhandler" />
+	</flow>
+	<flow name="preprocess-Flow-etransfer" doc:id="28e7df15-4848-4545-9049-76cec4228291" >
+		<logger level="INFO" doc:name="Start Logger" doc:id="2cdf8f2b-addb-480e-9edf-191969e672ad" message="preprocess-Flow-etransfer started" />
+		<flow-ref doc:name="etransfer-recieved-transferId-preprocess" doc:id="6e82ce9b-5610-4ff6-8a4e-2242536e8e7f" name="etransfer-recieved-transferId-preprocess"/>
+		<logger level="INFO" doc:name="End Logger" doc:id="f1fe6530-ef28-4d70-9657-3db75367e394" message="preprocess-Flow-etransfer ended"/>
+		<error-handler ref="intellect-banking-errorhandler" />
+	</flow>
+</mule>

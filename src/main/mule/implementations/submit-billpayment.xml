@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:bill-payments="http://www.mulesoft.org/schema/mule/bill-payments" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/bill-payments http://www.mulesoft.org/schema/mule/bill-payments/current/mule-bill-payments.xsd">
+	<flow name="submit-billPaymentFlow" doc:id="99a82bd5-0abe-4b81-91c7-7eab1e000ef1" >
+		
+		<ee:transform doc:name="Masking Payload" doc:id="015a63a5-f1d4-4c98-abae-290516522826">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+import * from dw::util::Values
+---
+((payload mask field("sin") with "******") mask field("dob") with "######") mask field("password") with "xxxxxx"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		
+		<ee:transform doc:name="Mapping Request Payload" doc:id="dd91cde1-eb81-4e95-a51f-adf651ce811a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "customerId": payload.cif,
+  "accountNumber":payload.debit_acc_no,
+  "vendor": {
+    "id": payload.biller_id,
+    "registeredCustomerId": payload.cif,
+    "accountNumber": payload.consumer_number
+  },
+  "amount": payload.debit_amount
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Before submit-billpayment connector" doc:id="a7c5ce9e-c423-4a8c-afe4-39637de06587" message="#['before submit-billpayment connector']"/>
+		<bill-payments:create-payment doc:name="Create payment" doc:id="5ffa7290-13c0-4909-a371-a915bcbda8f2" config-ref="Bill_Payments_Config" x-channel-aware="CORPORATE" x-correlation-id="#[attributes.headers.'msg_id']"/>
+		<logger level="INFO" doc:name="Afterr submit-billpayment connector" doc:id="4b8f10d3-bb1f-4f8b-ada3-9f58293182b7" message="#['After submit-billpayment connector']"/>
+		<ee:transform doc:name="Mapping Response Payload" doc:id="3434d021-57fc-4b8b-adea-1b3b8db7a3b6" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "response_message": "Success",
+  "response_code": "200",
+  "bill_payment_confirmation_number": payload.'confirmationNumber'
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<error-handler ref="intellect-banking-errorhandler" />
+	
+</flow>
+</mule>
