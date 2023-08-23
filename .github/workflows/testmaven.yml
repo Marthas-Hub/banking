@@ -51,10 +51,10 @@ jobs:
     - name: Build with Maven
       run: |
        mvn clean package
-      - uses: actions/cache@v1  
-          with:
-            path: ~/.m2/repository
-            key: ${{ runner.os }}-mavven-${{ ('*.jar') }}
+    - uses: actions/cache@v1  
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-mavven-${{ ('*.jar') }}
     - name: Deploy to cloudhub
       env:
          connectedAppClientId: ${{ secrets.MULE_CLIENT_ID }}
