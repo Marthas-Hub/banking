@@ -47,7 +47,7 @@ jobs:
         path: ~/.m2/repository
         key: ${{ runner.os }}-mavven-${{ ('*.jar') }}
     - name: Deploy to CloudHub
-        run: |
+        run:|
           mvn clean package deploy:deploy-file \
             -DmuleDeploy \
             -DmuleDeploy.prop.url=https://anypoint.mulesoft.com\
