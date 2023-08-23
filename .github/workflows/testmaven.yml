@@ -59,8 +59,7 @@ jobs:
           export CLOUDHUB_USERNAME=abhinav_0895
           export CLOUDHUB_PASSWORD=abhinavM@321
           export APPLICATION_NAME=credit-bureau-testcb1
-          
-          
+          anypoint runtime-mgr cloudhub-application deploy --username abhinav_0895 --password abhinavM@321 --environment "Sandbox" --workerSize "0.1" --workerCount "1" credit-bureau-testcb1 ./target/your-application-artifact.jar
  
       
    
