@@ -46,8 +46,12 @@ jobs:
       with:
         path: ~/.m2/repository
         key: ${{ runner.os }}-mavven-${{ ('*.jar') }}
-    - name: Deploy to cloudhub
-      env:
-         connectedAppClientId: ${{ secrets.USERNAME }}
-         connectedAppClientSecret: ${{ secrets.PASSWORD }}
-      run: mvn clean package deploy -DmuleDeploy -X --file pom.xml
+    - name: Build and Deploy to CloudHub
+           run: |
+             mvn clean package -DskipTests
+             mvn deploy
+           env:
+             cloudhub.username: ${{ secrets.CLOUDHUB_USERNAME }}
+             cloudhub.password: ${{ secrets.CLOUDHUB_PASSWORD }}
+             cloudhub.applicationName: cwb-intellect-banking
+             cloudhub.environment: SANDBOX

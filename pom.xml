@@ -31,22 +31,14 @@
 				<extensions>true</extensions>
 				<configuration>
 					<classifier>mule-application</classifier>
-				<cloudHubDeployment>
-     						<uri>https://anypoint.mulesoft.com</uri>
-     						
-						<muleVersion>${app.runtime}</muleVersion>
-						<applicationName>cwb-devCICD-credit-bureau-testcb</applicationName>
-						<environment>sandbox</environment>
-						<workers>2</workers>
-						<connectedAppClientId>ce0b5e26ab5d4f08b1cfcab1fe845a28</connectedAppClientId>
-						<connectedAppClientSecret>1aDAD03B9A904d8897f03a2c8E1138Db</connectedAppClientSecret>
-						<connectedAppGrantType>client_credentials</connectedAppGrantType>
-						
-						<deploymentTimeout>1000000</deploymentTimeout>
-						<overrideProperties>false</overrideProperties>
-						<properties/>
-					</cloudHubDeployment>
-				</configuration>
+				
+                   <cloudHubDeployment>
+                       <username>${cloudhub.username}</username>
+                       <password>${cloudhub.password}</password>
+                       <applicationName>${cloudhub.applicationName}</applicationName>
+                       <environment>${cloudhub.environment}</environment>
+                   </cloudHubDeployment>
+               				</configuration>
 			</plugin>
 		</plugins>
 	</build>
