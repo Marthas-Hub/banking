@@ -64,6 +64,6 @@ jobs:
          -Dmule.artifact=$artifactName \
          -Danypoint.prop.username="$USERNAME" \
          -Danypoint.prop.password="$PASSWORD" \
-         -Danypoint.prop.client_id=ce0b5e26ab5d4f08b1cfcab1fe845a28 \
-         -Danypoint.prop.client_secret=1aDAD03B9A904d8897f03a2c8E1138Db \
-         -DmuleDeploy.prop.businessGroup=655004bb-38b3-4fc1-a751-02cc0cdcc6d8
+         -Danypoint.prop.client_id= ce0b5e26ab5d4f08b1cfcab1fe845a28 \
+         -Danypoint.prop.client_secret= 1aDAD03B9A904d8897f03a2c8E1138Db \
+         -DmuleDeploy.prop.businessGroup= 655004bb-38b3-4fc1-a751-02cc0cdcc6d8
