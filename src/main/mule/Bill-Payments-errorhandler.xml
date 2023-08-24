@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd">
+	
+	<error-handler name="bill-payments-errorhandler" doc:id="4c5ede82-83fd-4d26-9d2d-928ff1484fea" >
+		
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="b61148c8-df33-4d6c-bf29-bba122221c6f" type="EXPRESSION,STREAM_MAXIMUM_SIZE_EXCEEDED">
+			<set-variable value="#[500]" doc:name="Set httpStatus Code" doc:id="5dd1d622-a04a-41a2-b8db-f22185378c20" variableName="httpStatus"/>
+			<ee:transform doc:name="Transform Message" doc:id="adf4c133-fa48-4949-bf48-1b9982178bc0" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+ "link": "",
+
+ "additionalMessage": [],
+
+ "timeStamp": now() as String {format: "yyyy-MM-dd'T'hh:mm:ss"},
+
+ "responseCode": "",
+
+ "message": "Internal transformation error.",
+
+ "httpStatusCode": vars.httpStatus
+}
+]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</on-error-continue>
+		
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="dd596a4f-c2fc-4e71-941e-46730fb4a555" type="ANY">
+			<set-variable value="#[500]" doc:name="Set httpStatus Code" doc:id="03c609ed-ca1a-4b6a-9819-c73c89a0ff53" variableName="httpStatus"/>
+			<ee:transform doc:name="Transform Message" doc:id="56a223f3-e746-4cb0-850b-f9d4e8b1513c" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+
+ "link": "",
+ "additionalMessage": error.mulemessage.typedvalue.value,
+ "timeStamp": now() as String {format: "yyyy-MM-dd'T'hh:mm:ss"},
+ "responseCode": "error.errorMessage.attributes.statusCode",
+ "message": "Internal connectivity error.",
+ "httpStatusCode": vars.httpStatus
+
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</on-error-continue>		
+	</error-handler>
+
+	
+	
+	
+</mule>
