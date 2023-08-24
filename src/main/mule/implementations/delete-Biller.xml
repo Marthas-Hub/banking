@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:core-banking-legacy="http://www.mulesoft.org/schema/mule/core-banking-legacy"
+	xmlns:bill-payments="http://www.mulesoft.org/schema/mule/bill-payments"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/bill-payments http://www.mulesoft.org/schema/mule/bill-payments/current/mule-bill-payments.xsd
+http://www.mulesoft.org/schema/mule/core-banking-legacy http://www.mulesoft.org/schema/mule/core-banking-legacy/current/mule-core-banking-legacy.xsd">
+	<sub-flow name="deleteBillerSub_Flow" doc:id="9ebf6d62-1509-404a-b8cd-33b34313d27d" >
+		
+		<set-variable value="#[payload]" doc:name="Request Payload" doc:id="6d6ea34d-f5a9-4c47-b341-d3a343763af2" variableName="requestPayload"/>
+		<ee:transform doc:name="Mapping Request Payload" doc:id="1e474171-9bc9-4c23-a19d-cd16f82e4fc7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "cif": payload.cif,
+  "biller": payload.biller map (element, index) -> {
+  "vendorId" : element.biller_id,
+  "vendorAccountNumber" : element.consumer_number
+}
+}]]></ee:set-payload>
+			
+</ee:message>
+			<ee:variables />
+		
+</ee:transform>
+		<logger level="INFO" doc:name="Before deleteBiller connector" doc:id="55aab751-4f31-4f8a-b95b-c7aae4a2b78a" message="#['before Delete-payees connector']"/>
+		<bill-payments:delete-payees doc:name="Delete payees" doc:id="ab6a292b-4d02-4fd5-9593-8deb397c311b" config-ref="Bill_Payments_Config" x-channel-aware="CORPORATE" x-correlation-id='#[attributes.headers."msg_id"]'/>
+		<logger level="INFO" doc:name="After Delete-payees connector" doc:id="5be57fbc-52fd-44ff-94ae-2dec982f6d57" message="#['After Delete-payees connector']"/>
+		<ee:transform doc:name="Mapping Response Payload" doc:id="dd5f932e-ae46-4d58-9c2d-5b78bb317ae2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "response_message": "Success",
+  "response_code": "200",
+  "reference_number": vars.requestPayload.host_reference_number
+  }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

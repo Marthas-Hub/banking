@@ -1,0 +1,27 @@
+%dw 2.0
+
+type auto_e65dccbd_1e22_401f_88a3_9a9fa5f8ee77_Input_Payload = {
+  customer_account: {
+    fi_account_id?: String, 
+    account_holder_name: String, 
+    bank_account_identifier: {
+      "type": "CANADIAN", 
+      account: String, 
+      _?: Any
+    }, 
+    _?: Any
+  }, 
+  amount: {
+    amount: Number, 
+    currencyCode: "CAD", 
+    _?: Any
+  } {"description": "Proposed eTransfer amount to be received."}, 
+  supplementary_info: {
+    customer_ip_address: String, 
+    _?: Any
+  } {"description": "Additional data block required for Fraud or Compliance reasons."}, 
+  participant_reference: String, 
+  recipient_memo: String, 
+  _?: Any
+}
+

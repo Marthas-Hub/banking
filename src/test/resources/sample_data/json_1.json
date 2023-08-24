@@ -1,0 +1,24 @@
+{
+  "transferOptions": [
+    {
+      "onUsIndicator": true,
+      "customerType": "RETAIL",
+      "autodepositId": "string",
+      "transferType": "DIRECT_DEPOSIT",
+      "customerName": {
+        "legalName": {
+          "retailName": {
+            "firstName": "string",
+            "lastName": "string",
+            "middleName": "string"
+          },
+          "businessName": {
+            "tradeName": "string",
+            "companyName": "string"
+          }
+        },
+        "registrationName": "string"
+      }
+    }
+  ]
+}
