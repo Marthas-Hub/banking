@@ -83,9 +83,9 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
-			<groupId>04ccabd7-591a-4976-a324-e4658877e3d8</groupId>
+			<groupId>655004bb-38b3-4fc1-a751-02cc0cdcc6d8</groupId>
 			<artifactId>mule-plugin-bill-payments</artifactId>
-			<version>1.0.2</version>
+			<version>1.0.0</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
@@ -95,9 +95,9 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
-			<groupId>04ccabd7-591a-4976-a324-e4658877e3d8</groupId>
+			<groupId>655004bb-38b3-4fc1-a751-02cc0cdcc6d8</groupId>
 			<artifactId>intellect-banking</artifactId>
-			<version>1.0.4</version>
+			<version>1.0.0</version>
 			<classifier>raml</classifier>
 			<type>zip</type>
 		</dependency>
