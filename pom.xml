@@ -74,14 +74,6 @@
 			<version>1.5.6</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
-		
-		<dependency>
-			<groupId>21c62897-93ee-4f64-8d96-647a66917876</groupId>
-			<artifactId>credit-bureau</artifactId>
-			<version>1.2.0</version>
-			<classifier>raml</classifier>
-			<type>zip</type>
-		</dependency>
 	</dependencies>
 	
 
