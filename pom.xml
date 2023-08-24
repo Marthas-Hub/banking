@@ -7,7 +7,7 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>mule-application</packaging>
 
-	<name>cwb-intellect-banking1</name>
+	<name>cwb-intellect-banking</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -82,20 +82,19 @@
 			<version>1.2.3</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
-		
+		<dependency>
+			<groupId>655004bb-38b3-4fc1-a751-02cc0cdcc6d8</groupId>
+			<artifactId>mule-plugin-bill-payments</artifactId>
+			<version>1.0.2</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
 		<dependency>
 			<groupId>org.mule.connectors</groupId>
 			<artifactId>mule-jms-connector</artifactId>
 			<version>1.8.7</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
-		<dependency>
-			<groupId>655004bb-38b3-4fc1-a751-02cc0cdcc6d8</groupId>
-			<artifactId>intellect-banking</artifactId>
-			<version>1.0.0</version>
-			<classifier>raml</classifier>
-			<type>zip</type>
-		</dependency>
+		
 	</dependencies>
 
 	<repositories>
