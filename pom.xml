@@ -3,17 +3,17 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.mycompany</groupId>
-	<artifactId>bill-payments</artifactId>
+	<artifactId>demo</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>mule-application</packaging>
 
-	<name>cwb-bill-paymentsS</name>
+	<name>demo</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<app.runtime>4.4.0-20230616</app.runtime>
+		<app.runtime>4.4.0-20230320</app.runtime>
 		<mule.maven.plugin.version>3.8.2</mule.maven.plugin.version>
 	</properties>
 
@@ -60,44 +60,6 @@
 			<artifactId>mule-sockets-connector</artifactId>
 			<version>1.2.3</version>
 			<classifier>mule-plugin</classifier>
-		</dependency>
-		<!-- 		<dependency> -->
-		<!-- 			<groupId>21c62897-93ee-4f64-8d96-647a66917876</groupId> -->
-		<!-- 			<artifactId>bill-payments</artifactId> -->
-		<!-- 			<version>1.0.1</version> -->
-		<!-- 			<classifier>raml</classifier> -->
-		<!-- 			<type>zip</type> -->
-		<!-- 		</dependency> -->
-		<dependency>
-			<groupId>org.mule.modules</groupId>
-			<artifactId>mule-apikit-module</artifactId>
-			<version>1.9.1</version>
-			<classifier>mule-plugin</classifier>
-		</dependency>
-		<dependency>
-			<groupId>04ccabd7-591a-4976-a324-e4658877e3d8</groupId>
-			<artifactId>mule-plugin-accounts</artifactId>
-			<version>1.0.2</version>
-			<classifier>mule-plugin</classifier>
-		</dependency>
-		<dependency>
-			<groupId>04ccabd7-591a-4976-a324-e4658877e3d8</groupId>
-			<artifactId>mule-plugin-core-banking-legacy</artifactId>
-			<version>1.0.0</version>
-			<classifier>mule-plugin</classifier>
-		</dependency>
-		<dependency>
-			<groupId>04ccabd7-591a-4976-a324-e4658877e3d8</groupId>
-			<artifactId>mule-plugin-core-banking-legacy-corporate</artifactId>
-			<version>1.0.1</version>
-			<classifier>mule-plugin</classifier>
-		</dependency>
-		<dependency>
-			<groupId>04ccabd7-591a-4976-a324-e4658877e3d8</groupId>
-			<artifactId>bill-payments</artifactId>
-			<version>1.0.4</version>
-			<classifier>raml</classifier>
-			<type>zip</type>
 		</dependency>
 	</dependencies>
 
