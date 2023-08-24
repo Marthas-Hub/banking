@@ -56,14 +56,19 @@ jobs:
         name: artifacts
     - name: Deploy to Sandbox
       env:
-        USERNAME: ${{ secrets.username }}
-        PASSWORD: ${{ secrets.password }}
+          MULE_ENV_URL: https://qeq-7lhd1d.5sc6y6-4.usa-e2.cloudhub.io/
+          MULE_USERNAME: ${{ secrets.username }}
+          MULE_PASSWORD: ${{ secrets.password }}
+          MULE_APP_NAME: demo1
+          MULE_ENVIRONMENT: sandbox
+          MULE_BUSINESS_GROUP: 655004bb-38b3-4fc1-a751-02cc0cdcc6d8
       run: |
         artifactName=$(ls *.jar | head -1)
-        mvn deploy -DmuleDeploy \
-         -Dmule.artifact=$artifactName \
-         -Danypoint.username="$USERNAME" \
-         -Danypoint.password="$PASSWORD" \
-         -Danypoint.client_id= ce0b5e26ab5d4f08b1cfcab1fe845a28 \
-         -Danypoint.client_secret= 1aDAD03B9A904d8897f03a2c8E1138Db \
-         -DmuleDeploy.businessGroup= 655004bb-38b3-4fc1-a751-02cc0cdcc6d8
+        mvn clean package deploy:deploy-file \
+            -DmuleDeploy \
+            -DmuleDeploy.prop.url=$MULE_ENV_URL \
+            -DmuleDeploy.prop.username=$MULE_USERNAME \
+            -DmuleDeploy.prop.password=$MULE_PASSWORD \
+            -DmuleDeploy.prop.applicationName=$MULE_APP_NAME \
+            -DmuleDeploy.prop.environment=$MULE_ENVIRONMENT \
+            -DmuleDeploy.prop.businessGroup=$MULE_BUSINESS_GROUP
