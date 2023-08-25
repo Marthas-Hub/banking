@@ -10,7 +10,6 @@ on:
     
 jobs:
   build:
-    needs: test
     runs-on: ubuntu-latest
     steps:
     - name: Checkout this repo
@@ -28,7 +27,7 @@ jobs:
         distribution: 'zulu'
         java-version: 8
     - name: Build with Maven
-      run: mvn -B package --file pom.xml -DskipMunitTests
+      run: mvn -B package --file pom.xml
     - name: Stamp artifact file name with commit hash
       run: |
         artifactName1=$(ls target/*.jar | head -1)
