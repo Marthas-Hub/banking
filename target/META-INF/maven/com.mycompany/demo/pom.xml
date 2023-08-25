@@ -7,7 +7,7 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>mule-application</packaging>
 
-	<name>demo1</name>
+	<name>demo</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -29,22 +29,6 @@
 				<artifactId>mule-maven-plugin</artifactId>
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
-				<configuration>
-				<cloudHubDeployment>
-						<uri>https://anypoint.mulesoft.com</uri>
-						<muleVersion>${app.runtime}</muleVersion>
-						<connectedAppClientId>${client.id}</connectedAppClientId>
-						<connectedAppClientSecret>${client.secret}</connectedAppClientSecret>
-						<connectedAppGrantType>client_credentials</connectedAppGrantType>
-						<applicationName>${app.name}</applicationName>
-						<environment>${env}</environment>
-						<workerType>MICRO</workerType>
-						<region>us-east-2</region>
-						<workers>1</workers>
-						<objectStoreV2>true</objectStoreV2>
-					</cloudHubDeployment>
-					<classifier>mule-application</classifier>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
